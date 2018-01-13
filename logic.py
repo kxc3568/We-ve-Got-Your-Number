@@ -123,25 +123,90 @@ def doListTwo(results,list1,list2):
 	sols2 = list2[1]
 
 	for i in range(len(nums1)):
-		for j in range(i,len(nums2)):
+		for j in range(len(nums2)):
 
 			#addition
 			current = nums1[i]+nums2[j]
-			solfact = sols1[i]+'+'+sols2[j]
 			if int(current) == current and current > 0 and current <= 100:
+				current = int(current)
+				solfact = sols1[i]+'+'+sols2[j]
 				results[current-1].append(solfact)
-			
+				finalApplyFact(results,current,solfact)
+
 			#subtraction
+			if int(nums1[i]) == nums1[i] and int(nums2[j]) == nums2[j]:
+				current = int(math.fabs(nums1[i]-nums2[j]))
+				if current > 0 and current <= 100:
+					if nums2[j] > nums1[i]:
+						solfact = sols2[j]+'-('+sols1[i]+')'
+					else:
+						solfact = sols1[i]+'-('+sols2[j]+')'
+					results[current-1].append(solfact)
+					finalApplyFact(results,current,solfact)
 
 			#multiplication
+			current = nums1[i]*nums2[j]
+			if int(current) == current and current > 0 and current <= 100:
+				current = int(current)
+				solfact = '('+sols1[i]+')x('+sols2[j]+')'
+				results[current-1].append(solfact)
+				finalApplyFact(results,current,solfact)
 
 			#division
+			current = float(nums1[i])/nums2[j]
+			if int(current) == current and current > 0 and current <= 100:
+				current = int(current)
+				solfact = '('+sols1[i]+')/('+sols2[j]+')'
+				results[current-1].append(solfact)
+				finalApplyFact(results,current,solfact)
+			current = float(nums2[j])/nums1[i]
+			if int(current) == current and current > 0 and current <= 100:
+				current = int(current)
+				solfact = '('+sols2[j]+')/('+sols1[i]+')'
+				results[current-1].append(solfact)
+				finalApplyFact(results,current,solfact)
 
 			#exponentiation
-
+			try: #math overflow error
+				current = math.pow(nums1[i],nums2[j])
+				if int(current) == current and current > 0 and current <= 100:
+					current = int(current)
+					solfact = '('+sols1[i]+')^('+sols2[j]+')'
+					results[current-1].append(solfact)
+					finalApplyFact(results,current,solfact)
+			except Exception as e:
+				pass
+			try: #math overflow error
+				current = math.pow(nums2[j],nums1[i])
+				if int(current) == current and current > 0 and current <= 100:
+					current = int(current)
+					solfact = '('+sols2[j]+')^('+sols1[i]+')'
+					results[current-1].append(solfact)
+					finalApplyFact(results,current,solfact)
+			except Exception as e:
+				pass
+			
 			#logarithm
+			try: #division by zero error
+				current = math.log(nums1[i],nums2[j])
+				if int(current) == current and current > 0 and current <= 100:
+					current = int(current)
+					solfact = 'log_('+sols1[i]+')('+sols2[j]+')'
+					results[current-1].append(solfact)
+					finalApplyFact(results,current,solfact)
+			except Exception as e:
+				pass
+			try:
+				current = math.log(nums2[j],nums1[i])
+				if int(current) == current and current > 0 and current <= 100:
+					current = int(current)
+					solfact = 'log_('+sols2[j]+')('+sols1[i]+')'
+					results[current-1].append(solfact)
+					finalApplyFact(results,current,solfact)
+			except Exception as e:
+				pass
+			
 
-	pass
 
 def doThree(num1, num2, num3): #return two lists - one for numbers, one for solutions to those numbers
 	nums1 = num1[0]
@@ -161,7 +226,7 @@ def doListThree(results, l, num):
 
 	pass
 
-def applyFact(generated, current, solfact):
+def applyFact(generated, current, solfact): #continuously adds to generated set of numbers by doing a factorial on the result under a certain threshold (20)
 	if current > 2 and int(current) == current:
 		while current <= 20:
 			solfact = '('+solfact+')!'
@@ -170,6 +235,11 @@ def applyFact(generated, current, solfact):
 				generated[1].append(solfact)
 			current = factorial[current]
 
+def finalApplyFact(results, current, solfact):
+	if current == 3 or current == 4:
+		current = factorial[current]
+		solfact = '('+solfact+')!'
+		results[current-1].append(solfact)
 
 
 factorial = [0]*21 #stores 0! to 99!
@@ -183,12 +253,13 @@ l3 = [6,'6']
 l4 = [7,'7']
 results = [[] for i in range(100)]
 
-print('SETS OF TWOS')
-print('FIRST')
 first = doTwo(l1,l2)
-print(first)
-print('SECOND')
 second = doTwo(l3,l4)
-print(second)
 doListTwo(results,first,second)
-print(results)
+count = 0
+for i in range(100):
+	print(str(i+1)+':')
+	print(results[i])
+	if len(results[i]) != 0:
+		count += 1
+print('count: ' + str(count))
