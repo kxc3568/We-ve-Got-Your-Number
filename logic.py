@@ -122,6 +122,25 @@ def doListTwo(results,list1,list2):
 	sols1 = list1[1]
 	sols2 = list2[1]
 
+	for i in range(len(nums1)):
+		for j in range(i,len(nums2)):
+
+			#addition
+			current = nums1[i]+nums2[j]
+			solfact = sols1[i]+'+'+sols2[j]
+			if int(current) == current and current > 0 and current <= 100:
+				results[current-1].append(solfact)
+			
+			#subtraction
+
+			#multiplication
+
+			#division
+
+			#exponentiation
+
+			#logarithm
+
 	pass
 
 def doThree(num1, num2, num3): #return two lists - one for numbers, one for solutions to those numbers
@@ -160,4 +179,16 @@ for i in range(1,21):
 
 l1 = [4,'4']
 l2 = [5,'5']
-print(doTwo(l1,l2))
+l3 = [6,'6']
+l4 = [7,'7']
+results = [[] for i in range(100)]
+
+print('SETS OF TWOS')
+print('FIRST')
+first = doTwo(l1,l2)
+print(first)
+print('SECOND')
+second = doTwo(l3,l4)
+print(second)
+doListTwo(results,first,second)
+print(results)
