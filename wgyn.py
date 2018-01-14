@@ -3,10 +3,17 @@ from logic import *
 
 if __name__ == "__main__":
 	args = sorted([sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]])
-	num1 = [int(args[0]),args[0]]
-	num2 = [int(args[1]),args[1]]
-	num3 = [int(args[2]),args[2]]
-	num4 = [int(args[3]),args[3]]
+	try:
+		num1 = [int(args[0]),args[0]]
+		num2 = [int(args[1]),args[1]]
+		num3 = [int(args[2]),args[2]]
+		num4 = [int(args[3]),args[3]]
+	except Exception as e:
+		print('The arguments must be 4 integers (do not include decimal places in your arguments; 1.0 is not 1')
+		sys.exit()
+	if num1[0] < 0 or num1[0] > 9 or num2[0] < 0 or num2[0] > 9 or num3[0] < 0 or num3[0] > 9 or num4[0] < 0 or num4[0] > 9:
+		print('The arguments must be integers within the set [0,10)')
+		sys.exit()
 
 def wgyn(num1, num2, num3, num4):
 	results = [[] for i in range(100)] #array for solutions for each number
