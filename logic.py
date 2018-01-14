@@ -279,7 +279,7 @@ def doneTwoNowThree(results, doneTwo, num3, finalNum):
 		
 		try:
 			current = dtNums[i]/num3[0]
-			solfact = '('+dtSols+')/'+num3[1]
+			solfact = '('+dtSols[i]+')/'+num3[1]
 			if current > 2 and current <= 20:
 				applyFinalNum(results,current,solfact,finalNum,4)
 			else:
@@ -291,7 +291,7 @@ def doneTwoNowThree(results, doneTwo, num3, finalNum):
 
 		try:
 			current = math.pow(dtNums[i],num3[0])
-			solfact = '('+dtSols+')^'+num3[1]
+			solfact = '('+dtSols[i]+')^'+num3[1]
 			if current > 2 and current <= 20:
 				applyFinalNum(results,current,solfact,finalNum,4)
 			else:
@@ -303,7 +303,7 @@ def doneTwoNowThree(results, doneTwo, num3, finalNum):
 
 		try:
 			current = math.pow(num3[0],dtNums[i])
-			solfact = num3[1]+'^('+dtNums+')'
+			solfact = num3[1]+'^('+dtSols[i]+')'
 			if current > 2 and current <= 20:
 				applyFinalNum(results,current,solfact,finalNum,4)
 			else:
@@ -315,7 +315,7 @@ def doneTwoNowThree(results, doneTwo, num3, finalNum):
 
 		try:
 			current = math.log(dtNums[i],num3[0])
-			solfact = 'log_('+dtSols+')('+num3[1]+')'
+			solfact = 'log_('+dtSols[i]+')('+num3[1]+')'
 			if current > 2 and current <= 20:
 				applyFinalNum(results,current,solfact,finalNum,4)
 			else:
