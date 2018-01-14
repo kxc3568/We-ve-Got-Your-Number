@@ -43,19 +43,25 @@ def doTwo(num1, num2): #return two lists - one for numbers, one for solutions to
 		applyFact(generated,current,solfact)
 
 	#division, not sure how precision works
-	current = float(nums1)/nums2
-	if current not in generated[0]:
-		solfact = sols1+'/'+sols2
-		generated[0].append(current)
-		generated[1].append(solfact)
-		applyFact(generated,current,solfact)
+	try:
+		current = float(nums1)/nums2
+		if current not in generated[0]:
+			solfact = sols1+'/'+sols2
+			generated[0].append(current)
+			generated[1].append(solfact)
+			applyFact(generated,current,solfact)
+	except Exception as e:
+		pass
 
-	current = float(nums2)/nums1
-	if current not in generated[0]:
-		solfact = sols2+'/'+sols1
-		generated[0].append(current)
-		generated[1].append(solfact)
-		applyFact(generated,current,solfact)
+	try:
+		current = float(nums2)/nums1
+		if current not in generated[0]:
+			solfact = sols2+'/'+sols1
+			generated[0].append(current)
+			generated[1].append(solfact)
+			applyFact(generated,current,solfact)
+	except Exception as e:
+		pass
 
 	#exponentiation
 	try:
@@ -386,9 +392,9 @@ def doConcat(results,concat,finalNum):
 		pass
 
 def applyFact(generated, current, solfact): #continuously adds to generated set of numbers by doing a factorial on the result under a certain threshold (20)
-	if current > 2 and int(current) == current:
+	if current > 2 and int(current) == current or current == 0:
 		current = int(current)
-		while current <= 20:
+		while current != 1 and current <= 20:
 			solfact = '('+solfact+')!'
 			if factorial[current] not in generated[0]:
 				generated[0].append(factorial[current])
@@ -484,32 +490,15 @@ def findFactCombos(num):
 	val = num[0]
 	combos = [val]
 	combosSol = [num[1]]
-	if val > 2:
-		while val < 20:
+	if val > 2 or val == 0:
+		while val != 1 and val < 20:
 			val = factorial[val]
 			combos.append(val)
 			combosSol.append('('+combosSol[len(combosSol)-1]+')!')
 	return [combos, combosSol]
 
 
-factorial = [0]*21 #stores 0! to 99!
+factorial = [0]*21 #stores 0! to 20!
 factorial[0] = 1
 for i in range(1,21):
 	factorial[i] = factorial[i-1]*i
-
-# l1 = [4,'4']
-# l2 = [5,'5']
-# l3 = [6,'6']
-# l4 = [7,'7']
-# results = [[] for i in range(100)]
-
-# first = doTwo(l1,l2)
-# second = doTwo(l3,l4)
-# doListTwo(results,first,second)
-# count = 0
-# for i in range(100):
-# 	print(str(i+1)+':')
-# 	print(results[i])
-# 	if len(results[i]) != 0:
-# 		count += 1
-# print('count: ' + str(count))
