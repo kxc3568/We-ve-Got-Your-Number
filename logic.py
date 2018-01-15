@@ -66,7 +66,7 @@ def doTwo(num1, num2): #return two lists - one for numbers, one for solutions to
 	#exponentiation
 	try:
 		current = int(math.pow(nums1,nums2))
-		if current not in generated[0]:
+		if current not in generated[0] and current != 0: #limit precision/floating point arithmetic errors
 			solfact = sols1+'^'+sols2
 			generated[0].append(current)
 			generated[1].append(solfact)
@@ -76,7 +76,7 @@ def doTwo(num1, num2): #return two lists - one for numbers, one for solutions to
 
 	try:
 		current = int(math.pow(nums2,nums1))
-		if current not in generated[0]:
+		if current not in generated[0] and current != 0:
 			solfact = sols2+'^'+sols1
 			generated[0].append(current)
 			generated[1].append(solfact)
@@ -85,24 +85,25 @@ def doTwo(num1, num2): #return two lists - one for numbers, one for solutions to
 		pass
 	
 	#logarithm, not sure how precision works
-	try:
-		current = math.log(nums1,nums2)
-		if current not in generated[0]:
-			solfact = 'log_'+sols1+'('+sols2+')'
-			generated[0].append(current)
-			generated[1].append(solfact)
-			applyFact(generated,current,solfact)
-	except Exception as e:
-		pass
-	try:
-		current = math.log(nums2,nums1)
-		if current not in generated[0]:
-			solfact = 'log_'+sols2+'('+sols1+')'
-			generated[0].append(current)
-			generated[1].append(solfact)
-			applyFact(generated,current,solfact)
-	except Exception as e:
-		pass
+	if nums1 < 300 and nums2 < 300: #limit floating point arithmetic errors
+		try:
+			current = math.log(nums1,nums2)
+			if current not in generated[0] and current != 0:
+				solfact = 'log_'+sols2+'('+sols1+')'
+				generated[0].append(current)
+				generated[1].append(solfact)
+				applyFact(generated,current,solfact)
+		except Exception as e:
+			pass
+		try:
+			current = math.log(nums2,nums1)
+			if current not in generated[0] and current != 0:
+				solfact = 'log_'+sols1+'('+sols2+')'
+				generated[0].append(current)
+				generated[1].append(solfact)
+				applyFact(generated,current,solfact)
+		except Exception as e:
+			pass
 	
 	#concatenation
 	if nums1 != 0:
@@ -185,40 +186,45 @@ def doListTwo(results,list1,list2):
 				current = math.pow(nums1[i],nums2[j])
 				if int(current) == current and current > 0 and current <= 100:
 					current = int(current)
-					solfact = '('+sols1[i]+')^('+sols2[j]+')'
-					results[current-1].append(solfact)
-					finalApplyFact(results,current,solfact)
+					if current != 0:
+						solfact = '('+sols1[i]+')^('+sols2[j]+')'
+						results[current-1].append(solfact)
+						finalApplyFact(results,current,solfact)
 			except Exception as e:
 				pass
 			try: #math overflow error
 				current = math.pow(nums2[j],nums1[i])
 				if int(current) == current and current > 0 and current <= 100:
 					current = int(current)
-					solfact = '('+sols2[j]+')^('+sols1[i]+')'
-					results[current-1].append(solfact)
-					finalApplyFact(results,current,solfact)
+					if current != 0:
+						solfact = '('+sols2[j]+')^('+sols1[i]+')'
+						results[current-1].append(solfact)
+						finalApplyFact(results,current,solfact)
 			except Exception as e:
 				pass
 			
 			#logarithm
-			try: #division by zero error
-				current = math.log(nums1[i],nums2[j])
-				if int(current) == current and current > 0 and current <= 100:
-					current = int(current)
-					solfact = 'log_('+sols1[i]+')('+sols2[j]+')'
-					results[current-1].append(solfact)
-					finalApplyFact(results,current,solfact)
-			except Exception as e:
-				pass
-			try:
-				current = math.log(nums2[j],nums1[i])
-				if int(current) == current and current > 0 and current <= 100:
-					current = int(current)
-					solfact = 'log_('+sols2[j]+')('+sols1[i]+')'
-					results[current-1].append(solfact)
-					finalApplyFact(results,current,solfact)
-			except Exception as e:
-				pass
+			if nums1[i] < 300 and nums2[j] < 300:
+				try: #division by zero error
+					current = math.log(nums1[i],nums2[j])
+					if int(current) == current and current > 0 and current <= 100:
+						current = int(current)
+						if current != 0:
+							solfact = 'log_('+sols2[j]+')('+sols1[i]+')'
+							results[current-1].append(solfact)
+							finalApplyFact(results,current,solfact)
+				except Exception as e:
+					pass
+				try:
+					current = math.log(nums2[j],nums1[i])
+					if int(current) == current and current > 0 and current <= 100:
+						current = int(current)
+						if current != 0:
+							solfact = 'log_('+sols1[i]+')('+sols2[j]+')'
+							results[current-1].append(solfact)
+							finalApplyFact(results,current,solfact)
+				except Exception as e:
+					pass
 
 def doThree(results, l, finalNum):
 	num1 = l[0]
@@ -319,29 +325,30 @@ def doneTwoNowThree(results, doneTwo, num3, finalNum):
 		except Exception as e:
 			pass
 
-		try:
-			current = math.log(dtNums[i],num3[0])
-			solfact = 'log_('+dtSols[i]+')('+num3[1]+')'
-			if current > 2 and current <= 20:
-				applyFinalNum(results,current,solfact,finalNum,4)
-			else:
-				applyFinalNum(results,current,solfact,finalNum,0)
-				applyFinalNum(results,current,solfact,finalNum,1)
-				applyFinalNum(results,current,solfact,finalNum,2)
-		except Exception as e:
-			pass
+		if dtNums[i] < 300 and num3[0] < 300:
+			try:
+				current = math.log(dtNums[i],num3[0])
+				solfact = 'log_('+num3[1]+')('+dtSols[i]+')'
+				if current > 2 and current <= 20:
+					applyFinalNum(results,current,solfact,finalNum,4)
+				else:
+					applyFinalNum(results,current,solfact,finalNum,0)
+					applyFinalNum(results,current,solfact,finalNum,1)
+					applyFinalNum(results,current,solfact,finalNum,2)
+			except Exception as e:
+				pass
 
-		try:
-			current = math.log(num3[0],dtNums[i])
-			solfact = 'log_'+num3[1]+'('+dtSols[i]+')'
-			if current > 2 and current <= 20:
-				applyFinalNum(results,current,solfact,finalNum,4)
-			else:
-				applyFinalNum(results,current,solfact,finalNum,0)
-				applyFinalNum(results,current,solfact,finalNum,1)
-				applyFinalNum(results,current,solfact,finalNum,2)
-		except Exception as e:
-			pass
+			try:
+				current = math.log(num3[0],dtNums[i])
+				solfact = 'log_('+dtSols[i]+')('+num3[1]+')'
+				if current > 2 and current <= 20:
+					applyFinalNum(results,current,solfact,finalNum,4)
+				else:
+					applyFinalNum(results,current,solfact,finalNum,0)
+					applyFinalNum(results,current,solfact,finalNum,1)
+					applyFinalNum(results,current,solfact,finalNum,2)
+			except Exception as e:
+				pass
 
 		#operation for finalNum is multiplication or division
 		current = dtNums[i]+num3[0]
@@ -459,32 +466,35 @@ def applyFinalNum(results, current, solfact, finalNum, operation): #value of ope
 				finalCurrent = math.pow(current,finalNum[2*i])
 				if int(finalCurrent) == finalCurrent and finalCurrent > 0 and finalCurrent <= 100:
 					finalCurrent = int(finalCurrent)
-					results[finalCurrent-1].append('('+solfact+')^'+finalNum[2*i+1])
+					if finalCurrent != 0:
+						results[finalCurrent-1].append('('+solfact+')^'+finalNum[2*i+1])
 			except Exception as e:
 				pass
 			try:
 				finalCurrent = math.pow(finalNum[2*i],current)
 				if int(finalCurrent) == finalCurrent and finalCurrent > 0 and finalCurrent <= 100:
 					finalCurrent = int(finalCurrent)
-					results[finalCurrent-1].append(finalNum[2*i+1]+'^('+solfact+')')
+					if finalCurrent != 0:
+						results[finalCurrent-1].append(finalNum[2*i+1]+'^('+solfact+')')
 			except Exception as e:
 				pass
 
 		elif operation == 3:
-			try:
-				finalCurrent = math.log(current,finalNum[2*i])
-				if int(finalCurrent) == finalCurrent and finalCurrent > 0 and finalCurrent <= 100:
-					finalCurrent = int(finalCurrent)
-					results[finalCurrent-1].append('log_('+solfact+')('+finalNum[2*i+1]+')')
-			except Exception as e:
-				pass
-			try:
-				finalCurrent = math.log(finalNum[2*i],solfact)
-				if int(finalCurrent) == finalCurrent and finalCurrent > 0 and finalCurrent <= 100:
-					finalCurrent = int(finalCurrent)
-					results[finalCurrent-1].append('log_'+finalNum[2*i+1]+'('+solfact+')')
-			except Exception as e:
-				pass
+			if current < 300 and finalNum[2*i] < 300:
+				try:
+					finalCurrent = math.log(current,finalNum[2*i])
+					if int(finalCurrent) == finalCurrent and finalCurrent > 0 and finalCurrent <= 100:
+						finalCurrent = int(finalCurrent)
+						results[finalCurrent-1].append('log_('+finalNum[2*i+1]+')('+solfact+')')
+				except Exception as e:
+					pass
+				try:
+					finalCurrent = math.log(finalNum[2*i],solfact)
+					if int(finalCurrent) == finalCurrent and finalCurrent > 0 and finalCurrent <= 100:
+						finalCurrent = int(finalCurrent)
+						results[finalCurrent-1].append('log_('+solfact+')('+finalNum[2*i+1]+')')
+				except Exception as e:
+					pass
 			
 def findFactCombos(num):
 	val = num[0]
