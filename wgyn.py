@@ -2,7 +2,11 @@ import sys
 from logic import *
 
 if __name__ == "__main__":
-	args = sorted([sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]])
+	try:
+		args = sorted([sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]])
+	except Exception as e:
+		print('Enter four space-separated arguments')
+		sys.exit()
 	try:
 		num1 = [int(args[0]),args[0]]
 		num2 = [int(args[1]),args[1]]
