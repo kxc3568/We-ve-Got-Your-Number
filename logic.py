@@ -85,7 +85,7 @@ def doTwo(num1, num2): #return two lists - one for numbers, one for solutions to
 		pass
 	
 	#logarithm, not sure how precision works
-	if nums1 < 300 and nums2 < 300: #limit floating point arithmetic errors
+	if nums1 < 1000 and nums2 < 1000: #limit floating point arithmetic errors
 		try:
 			current = math.log(nums1,nums2)
 			if current not in generated[0] and current != 0:
@@ -204,7 +204,7 @@ def doListTwo(results,list1,list2):
 				pass
 			
 			#logarithm
-			if nums1[i] < 300 and nums2[j] < 300:
+			if nums1[i] < 1000 and nums2[j] < 1000:
 				try: #division by zero error
 					current = math.log(nums1[i],nums2[j])
 					if int(current) == current and current > 0 and current <= 100:
@@ -325,7 +325,7 @@ def doneTwoNowThree(results, doneTwo, num3, finalNum):
 		except Exception as e:
 			pass
 
-		if dtNums[i] < 300 and num3[0] < 300:
+		if dtNums[i] < 1000 and num3[0] < 1000:
 			try:
 				current = math.log(dtNums[i],num3[0])
 				solfact = 'log_('+num3[1]+')('+dtSols[i]+')'
@@ -480,7 +480,7 @@ def applyFinalNum(results, current, solfact, finalNum, operation): #value of ope
 				pass
 
 		elif operation == 3:
-			if current < 300 and finalNum[2*i] < 300:
+			if current < 1000 and finalNum[2*i] < 1000:
 				try:
 					finalCurrent = math.log(current,finalNum[2*i])
 					if int(finalCurrent) == finalCurrent and finalCurrent > 0 and finalCurrent <= 100:
