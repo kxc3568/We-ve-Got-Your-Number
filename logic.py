@@ -85,7 +85,7 @@ def doTwo(num1, num2): #return two lists - one for numbers, one for solutions to
 		pass
 	
 	#logarithm, not sure how precision works
-	if nums1 < 1000 and nums2 < 1000: #limit floating point arithmetic errors
+	if nums1 <= 5040 and nums2 <= 5040: #limit floating point arithmetic errors
 		try:
 			current = math.log(nums1,nums2)
 			if current not in generated[0] and current != 0:
@@ -204,7 +204,7 @@ def doListTwo(results,list1,list2):
 				pass
 			
 			#logarithm
-			if nums1[i] < 1000 and nums2[j] < 1000:
+			if nums1[i] <= 5040 and nums2[j] <= 5040:
 				try: #division by zero error
 					current = math.log(nums1[i],nums2[j])
 					if int(current) == current and current > 0 and current <= 100:
@@ -302,6 +302,18 @@ def doneTwoNowThree(results, doneTwo, num3, finalNum):
 			pass
 
 		try:
+			current = num3[0]/dtNums[i]
+			solfact = num3[1]+'/('+dtSols[i]+')'
+			if current > 2 and current <= 20:
+				applyFinalNum(results,current,solfact,finalNum,4)
+			else:
+				applyFinalNum(results,current,solfact,finalNum,0)
+				applyFinalNum(results,current,solfact,finalNum,2)
+				applyFinalNum(results,current,solfact,finalNum,3)
+		except Exception as e:
+			pass
+
+		try:
 			current = math.pow(dtNums[i],num3[0])
 			solfact = '('+dtSols[i]+')^'+num3[1]
 			if current > 2 and current <= 20:
@@ -325,7 +337,7 @@ def doneTwoNowThree(results, doneTwo, num3, finalNum):
 		except Exception as e:
 			pass
 
-		if dtNums[i] < 1000 and num3[0] < 1000:
+		if dtNums[i] <= 5040 and num3[0] <= 5040:
 			try:
 				current = math.log(dtNums[i],num3[0])
 				solfact = 'log_('+num3[1]+')('+dtSols[i]+')'
