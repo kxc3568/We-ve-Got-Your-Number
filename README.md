@@ -4,6 +4,6 @@ A solver for the Science Olympiad event "[We've Got Your Number](http://outreach
 
 Install Python 3 then run the following command in your cloned repo
 
-`python3 wgyn.py #1 #2 #3 #4`
+`python wgyn.py #1 #2 #3 #4`
 
 where #1, #2, #3, and #4 should be replaced by your set of four numbers
